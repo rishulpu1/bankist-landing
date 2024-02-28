@@ -7,6 +7,8 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const btnScrolTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
 
 const openModal = function () {
   modal.classList.remove('hidden');
@@ -18,8 +20,7 @@ const closeModal = function () {
   overlay.classList.add('hidden');
 };
 
-
-btnsOpenModal.forEach(btn => btn.addEventListener('click', openModal))
+btnsOpenModal.forEach(btn => btn.addEventListener('click', openModal));
 
 // for (let i = 0; i < btnsOpenModal.length; i++)
 //   btnsOpenModal[i].addEventListener('click', openModal);
@@ -31,4 +32,18 @@ document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
     closeModal();
   }
+});
+
+btnScrolTo.addEventListener('click', function (e) {
+  e.preventDefault();
+  //Old way of scroll to section
+  // const s1Cord = section1.getBoundingClientRect();
+  // window.scrollTo({
+  //   left: s1Cord.left + window.scrollX,
+  //   top: s1Cord.top + window.scrollY,
+  //   behavior: 'smooth',
+  // });
+
+  //Modern way of scroll to section
+  section1.scrollIntoView({ behavior: 'smooth' });
 });
