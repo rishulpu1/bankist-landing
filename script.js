@@ -59,7 +59,7 @@ navLinks.addEventListener('click', function (e) {
   e.preventDefault();
   if (e.target.classList.contains('nav__link')) {
     const id = e.target.getAttribute('href');
-    console.log(id);
+
     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
   }
 });
@@ -106,7 +106,7 @@ const navHeight = nav.getBoundingClientRect().height;
 
 const navObs = function (entries) {
   const [entry] = entries;
-  console.log(entry);
+
   if (!entry.isIntersecting) nav.classList.add('sticky');
   else nav.classList.remove('sticky');
 };
@@ -135,3 +135,26 @@ document.querySelectorAll('.section').forEach(function (section) {
   sectionObserver.observe(section);
   section.classList.add('section--hidden');
 });
+
+// Lazy loading images
+const lazyImgs = document.querySelectorAll('img[data-src]');
+
+const loadedImg = function (entries, observer) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) return;
+
+  //loading images
+  entry.target.src = entry.target.dataset.src;
+  entry.target.addEventListener('load', function () {
+    entry.target.classList.remove('lazy-img');
+  });
+  observer.unobserve(entry.target);
+};
+
+const imgObserver = new IntersectionObserver(loadedImg, {
+  root: null,
+  threshold: 0,
+  rootMargin: '200px',
+});
+
+lazyImgs.forEach(img => imgObserver.observe(img));
